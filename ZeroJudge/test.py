@@ -7,3 +7,4 @@ for i in a.split(' '):
 """for i in range(3):
     l.append(input())"""
 print(l)
+print("test")
