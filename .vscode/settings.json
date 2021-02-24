@@ -2,4 +2,5 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": false,
     "python.pythonPath": "C:\\Users\\Tim\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
+    "jupyter.jupyterServerType": "local",
 }
