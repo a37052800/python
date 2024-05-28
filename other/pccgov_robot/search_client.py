@@ -1,6 +1,7 @@
 import requests, os
 from bs4 import BeautifulSoup
 from openpyxl import Workbook, load_workbook
+from progress.bar import Bar
 
 class Client():
     # 初始化
@@ -59,6 +60,7 @@ class Client():
         result = []
 
         org_names_and_tender_numbers = self.get_org_names_and_tender_numbers(soup)
+        bar = Bar('Processing get_tender_partial_info', max=len(org_names_and_tender_numbers))
         for i in org_names_and_tender_numbers:
             org_number = self.get_org_number(i['org_name'])
             result.append({
@@ -66,6 +68,7 @@ class Client():
                 'tender_number': i['tender_number'],
                 'org_number': org_number
             })
+            bar.next()
         # print(result)
         return result
 
@@ -78,6 +81,7 @@ class Client():
 
         rows = table.find_all('tr') if table else []
 
+        bar = Bar('Processing get_org_names_and_tender_numbers', max=len(rows))
         for row in rows:
             cells = row.find_all('td')
             org_name = ''
@@ -97,7 +101,8 @@ class Client():
                     'tender_number': tender_number
                 })
                 # print(result)
-
+            bar.next()
+            
         return result
 
 
@@ -121,6 +126,7 @@ class Client():
     # 取得標案詳細資訊
     def get_tender_info(self, tender_info):
         result = []
+        bar = Bar('Processing get_tender_info', max=len(tender_info))
         for i in tender_info:
             params = {
                 'unit_id': i['org_number'],
@@ -149,6 +155,7 @@ class Client():
             except Exception as e:
                 print(f"發生錯誤: {e}")
                 continue
+            bar.next()
 
         return result
     
